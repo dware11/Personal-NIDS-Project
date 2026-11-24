@@ -1,0 +1,8 @@
+# Local alert data can contain real IPs from your network
+*.db
+
+__pycache__/
+*.pyc
+.venv/
+venv/
+.DS_Store

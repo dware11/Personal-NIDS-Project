@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal NIDS — Alert Dashboard</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; background: #0f1117; color: #e6e6e6; }
+    header { padding: 1.5rem 2rem; border-bottom: 1px solid #2a2d3a; }
+    h1 { margin: 0; font-size: 1.4rem; }
+    p.sub { margin: .25rem 0 0; color: #9aa0b4; }
+    main { padding: 1.5rem 2rem; }
+    table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+    th, td { text-align: left; padding: .6rem .75rem; border-bottom: 1px solid #2a2d3a; }
+    th { color: #9aa0b4; font-weight: 600; text-transform: uppercase; font-size: .75rem; letter-spacing: .04em; }
+    td.mono { font-family: ui-monospace, monospace; }
+    .tag { padding: .15rem .5rem; border-radius: 4px; background: #3a1f24; color: #ff8a8a; font-size: .8rem; }
+    .empty { color: #9aa0b4; padding: 2rem 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Personal NIDS — Alert Dashboard</h1>
+    <p class="sub">{{ alerts|length }} alert(s) stored in alerts.db</p>
+  </header>
+  <main>
+    {% if alerts %}
+    <table>
+      <thead>
+        <tr><th>Timestamp</th><th>Alert</th><th>Source IP</th><th>Destination IP</th><th>Port</th></tr>
+      </thead>
+      <tbody>
+        {% for a in alerts|reverse %}
+        <tr>
+          <td class="mono">{{ a.timestamp }}</td>
+          <td><span class="tag">{{ a.alert_type }}</span></td>
+          <td class="mono">{{ a.src_ip }}</td>
+          <td class="mono">{{ a.dst_ip }}</td>
+          <td class="mono">{{ a.port }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="empty">No alerts yet. Run the sniffer, or seed sample data with <code>python seed_sample_alerts.py</code>.</p>
+    {% endif %}
+  </main>
+</body>
+</html>

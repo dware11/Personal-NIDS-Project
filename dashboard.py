@@ -31,5 +31,5 @@ def dashboard():
     return render_template('dashboard.html', alerts=alerts)
 
 # Run app if its the main 
-if __name__ == 'main__': 
+if __name__ == '__main__': 
     app.run(debug=True)
