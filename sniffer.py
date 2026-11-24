@@ -4,7 +4,7 @@ import sqlite3
 
 common_ports = {
     80: "HTTP",
-    433: "HTTPS",
+    443: "HTTPS",
     22: "SSH", 
     23: "TELNET", 
     21: "FTP", 
@@ -62,14 +62,14 @@ def handle_packet(packet):
             connect.commit()
             connect.close()
 
-        common_ports.get(dport,"Unknown")
-        print(f"{datetime.now()} --> Source IP: {src_ip} --> Destination IP: {dst_ip} on port {dport}")
+        service = common_ports.get(dport, "Unknown")
+        print(f"{datetime.now()} --> Source IP: {src_ip} --> Destination IP: {dst_ip} on port {dport} ({service})")
 
     # UDP PACKET HANDLING
     elif packet.haslayer(IP) and packet.haslayer(UDP): 
         src_ip = packet[IP].src
         dst_ip = packet[IP].dst
-        dport = packet[IP].dport
+        dport = packet[UDP].dport
 
         print(f"[UDP] {datetime.now()} --> From {src_ip} to {dst_ip} on port {dport}")
 
@@ -99,11 +99,13 @@ def handle_packet(packet):
         if ip_counts[src_ip] > 10: 
             alert_type = "ICMP Flood"
             timestamp = str(datetime.now())
-            connection = sqlite3.connect("alert.db")
+            connection = sqlite3.connect("alerts.db")
             cursor = connection.cursor()
             cursor.execute (""" 
                 INSERT INTO alerts (timestamp, src_ip, dst_ip, port, alert_type)
                 VALUES (?,?,?,?,?)""", (timestamp, src_ip, dst_ip, 0, alert_type))
+            connection.commit()
+            connection.close()
             
 
 # Sniffs through network 

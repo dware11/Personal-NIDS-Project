@@ -16,9 +16,9 @@ CREATE TABLE IF NOT EXISTS alerts (
 ''')
 
 sample_alerts = [ 
-    (datetime.now(), "192.168.1.10", "10.0.0.5", 22, "Multiple Packets"),
-    (datetime.now(), "192.168.1.20", "10.0.0.5", 80, "Port Scan"),
-    (datetime.now(), "192.168.1.30", "10.0.0.8", 443, "Multiple Packets")
+    (str(datetime.now()), "192.168.1.10", "10.0.0.5", 22, "Multiple Packets"),
+    (str(datetime.now()), "192.168.1.20", "10.0.0.5", 80, "Port Scan"),
+    (str(datetime.now()), "192.168.1.30", "10.0.0.8", 443, "Multiple Packets")
 ]
 
 for elements in sample_alerts: 

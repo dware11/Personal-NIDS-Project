@@ -5,7 +5,7 @@ cursor = connection.cursor()
 
 # alerts the table name so asking cursor to get all 
 # alert records 
-cursor.execute("SELECT * FROM alerts")
+cursor.execute("SELECT timestamp, src_ip, dst_ip, port, alert_type FROM alerts")
 
 # Fetch all all results (tuples)
 rows = cursor.fetchall()
